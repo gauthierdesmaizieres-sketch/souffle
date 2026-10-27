@@ -29,6 +29,8 @@
   .bar div { height:100%; width:0; background:var(--accent); transition:width 1s linear; }
   .stop { background:transparent; border:1px solid var(--line); color:var(--ink); padding:12px 28px; border-radius:999px; font:inherit; cursor:pointer; }
   #voice { color:var(--muted); font-size:.85rem; text-align:center; }
+  input[type=range] { width:100%; margin-top:14px; accent-color:var(--accent); }
+  select { width:100%; padding:14px; border-radius:14px; border:1px solid var(--line); background:var(--card); color:var(--ink); font:inherit; }
 </style>
 </head>
 <body>
@@ -40,6 +42,10 @@
       <div class="group" id="moment"><button data-v="matin">Matin</button><button data-v="soir">Soir</button></div></div>
     <div><div class="label">Durée</div>
       <div class="group" id="duree"><button data-v="3">3 min</button><button data-v="10">10 min</button><button data-v="20">20 min</button></div></div>
+    <div><div class="label">Fond sonore</div>
+      <div class="group" id="fond"><button data-v="aucun">Aucun</button><button data-v="pluie">Pluie</button><button data-v="ocean">Océan</button><button data-v="bols">Bols</button></div>
+      <input type="range" id="volume" min="0" max="100" aria-label="Volume du fond sonore"></div>
+    <div id="voixbox"><label class="label" for="voix" style="display:block">Voix</label><select id="voix"></select></div>
     <button class="go" id="go">Commencer</button>
     <div id="voice"></div>
   </div>
@@ -56,8 +62,9 @@
 const $ = (id) => document.getElementById(id);
 const store = { get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
                 set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
-const state = { moment: new Date().getHours() < 15 ? 'matin' : 'soir', duree: [3, 10, 20].includes(store.get('souffle-duree')) ? store.get('souffle-duree') : 10 };
-let content, manifest = {}, run = null;
+const state = { moment: new Date().getHours() < 15 ? 'matin' : 'soir', duree: [3, 10, 20].includes(store.get('souffle-duree')) ? store.get('souffle-duree') : 10,
+                fond: ['aucun', 'pluie', 'ocean', 'bols'].includes(store.get('souffle-fond')) ? store.get('souffle-fond') : 'aucun' };
+let content, manifest = {}, run = null, amb = null;
 
 function bindGroup(id, key) {
   const btns = [...$(id).children];
@@ -65,23 +72,90 @@ function bindGroup(id, key) {
   btns.forEach((b) => b.onclick = () => { state[key] = key === 'duree' ? +b.dataset.v : b.dataset.v; store.set('souffle-' + key, state[key]); sync(); });
   sync();
 }
-bindGroup('moment', 'moment'); bindGroup('duree', 'duree');
+bindGroup('moment', 'moment'); bindGroup('duree', 'duree'); bindGroup('fond', 'fond');
 
-// Cloche synthétisée : pas de fichier à fournir.
+// Cloche et fonds sonores synthétisés : aucun fichier, aucun droit d'auteur.
+const ctx = () => (ctx.c ||= new AudioContext());
+function pluck(out, f, g, dur) {
+  const c = ctx(), o = c.createOscillator(), v = c.createGain();
+  o.frequency.value = f; v.gain.setValueAtTime(g, c.currentTime);
+  v.gain.exponentialRampToValueAtTime(.0001, c.currentTime + dur);
+  o.connect(v).connect(out); o.start(); o.stop(c.currentTime + dur);
+}
 function bell() {
-  try {
-    const ctx = bell.ctx ||= new AudioContext();
-    for (const [f, g] of [[432, .25], [864, .08], [1296, .04]]) {
-      const o = ctx.createOscillator(), v = ctx.createGain();
-      o.frequency.value = f; v.gain.setValueAtTime(g, ctx.currentTime);
-      v.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + 6);
-      o.connect(v).connect(ctx.destination); o.start(); o.stop(ctx.currentTime + 6);
-    }
-  } catch {}
+  try { for (const [f, g] of [[432, .25], [864, .08], [1296, .04]]) pluck(ctx().destination, f, g, 6); } catch {}
 }
 
-const frVoice = () => speechSynthesis.getVoices().filter((v) => v.lang.startsWith('fr'))
-  .sort((a, b) => /natural|online|google/i.test(b.name) - /natural|online|google/i.test(a.name))[0];
+function noise(brown) {
+  const c = ctx(), b = c.createBuffer(1, c.sampleRate * 8, c.sampleRate), d = b.getChannelData(0);
+  for (let i = 0, last = 0; i < d.length; i++) {
+    const w = Math.random() * 2 - 1;
+    d[i] = brown ? (last = (last + .02 * w) / 1.02) * 3.5 : w;
+  }
+  const s = c.createBufferSource(); s.buffer = b; s.loop = true; s.start(); return s;
+}
+
+// Construit un fond sonore vers `out` ; renvoie la fonction qui l'arrête.
+function ambience(kind, out) {
+  const c = ctx(), nodes = [], timers = [];
+  const chain = (...n) => { for (let i = 0; i < n.length - 1; i++) n[i].connect(n[i + 1]); nodes.push(...n.slice(0, -1)); };
+  const filt = (type, f) => { const x = c.createBiquadFilter(); x.type = type; x.frequency.value = f; return x; };
+  const gain = (g) => { const x = c.createGain(); x.gain.value = g; return x; };
+  if (kind === 'pluie') {
+    chain(noise(), filt('highpass', 400), filt('lowpass', 2500), gain(.12), out);
+    chain(noise(true), filt('lowpass', 500), gain(.5), out);
+    timers.push(setInterval(() => Math.random() < .4 && pluck(out, 1500 + Math.random() * 2500, .02, .06), 250));
+  } else if (kind === 'ocean') {
+    const lp = filt('lowpass', 500), g = gain(.45), lfo = c.createOscillator();
+    chain(noise(true), lp, g, out);
+    // Une vague toutes les 10 s : le rythme de la cohérence cardiaque.
+    lfo.frequency.value = .1; lfo.start();
+    chain(lfo, gain(.35), g.gain);
+    chain(lfo, gain(300), lp.frequency);
+  } else if (kind === 'bols') {
+    for (const [f, v] of [[110, .12], [110.7, .08], [165, .05], [220, .03]]) {
+      const o = c.createOscillator(); o.frequency.value = f; o.start(); chain(o, gain(v), out);
+    }
+    const strike = () => { pluck(out, 220, .12, 9); pluck(out, 528, .04, 7); };
+    strike(); timers.push(setInterval(strike, 20000));
+  }
+  return () => { timers.forEach(clearInterval); nodes.forEach((n) => { try { n.stop?.(); } catch {} n.disconnect(); }); };
+}
+
+const vol = () => +$('volume').value / 100;
+const level = (k, secs = 1) => amb?.g.gain.setTargetAtTime(k * vol() * .8, ctx().currentTime, secs / 3);
+function ambStart() {
+  if (state.fond === 'aucun') return;
+  try {
+    const g = ctx().createGain(); g.gain.value = 0; g.connect(ctx().destination);
+    amb = { g, stop: ambience(state.fond, g) }; level(1, 4);
+  } catch {}
+}
+function ambStop(secs) {
+  const a = amb; amb = null;
+  if (!a) return;
+  a.g.gain.setTargetAtTime(0, ctx().currentTime, secs / 3);
+  setTimeout(() => { a.stop(); a.g.disconnect(); }, secs * 1000 + 200);
+}
+$('volume').value = store.get('souffle-volume', 40);
+$('volume').oninput = () => { store.set('souffle-volume', vol() * 100); level(1, .2); };
+
+const frVoices = () => speechSynthesis.getVoices().filter((v) => v.lang.startsWith('fr'))
+  .sort((a, b) => /natural|online|google/i.test(b.name) - /natural|online|google/i.test(a.name));
+const frVoice = () => frVoices().find((v) => v.name === store.get('souffle-voix')) || frVoices()[0];
+function utter(text) {
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'fr-FR'; u.voice = frVoice() || null; u.rate = 0.82;
+  return u;
+}
+function fillVoices() {
+  $('voix').replaceChildren(...frVoices().map((v) => new Option(v.name, v.name)));
+  if (frVoice()) $('voix').value = frVoice().name;
+}
+$('voix').onchange = () => {
+  store.set('souffle-voix', $('voix').value);
+  speechSynthesis.cancel(); speechSynthesis.speak(utter('Installez-vous confortablement, et respirez.'));
+};
 
 function speak(step) {
   if (!step.text) return Promise.resolve();
@@ -94,8 +168,7 @@ function speak(step) {
       a.play().catch(done);
       return;
     }
-    const u = new SpeechSynthesisUtterance(step.text);
-    u.lang = 'fr-FR'; u.voice = frVoice() || null; u.rate = 0.82;
+    const u = utter(step.text);
     // Certains navigateurs n'émettent jamais onend : filet de sécurité.
     const t = setTimeout(done, (estSpeech(step.text) * 3 + 5) * 1000);
     u.onend = u.onerror = () => { clearTimeout(t); done(); };
@@ -110,6 +183,8 @@ async function start() {
   const { steps, used, target } = compose(content, state.moment, state.duree, store.get('souffle-recent', []));
   store.set('souffle-recent', used);
   run = { stopped: false, t0: Date.now() };
+  try { ctx().resume(); } catch {}  // doit partir du clic, avant tout await
+  ambStart();
   const elapsed = () => (Date.now() - run.t0) / 1000;
   $('setup').style.display = 'none'; $('player').style.display = 'flex';
   try { run.lock = await navigator.wakeLock?.request('screen'); } catch {}
@@ -121,11 +196,14 @@ async function start() {
   for (let i = 0; i < steps.length && !run.stopped; i++) {
     const s = steps[i];
     $('step').textContent = s.label;
+    if (s.text) level(.5);  // le fond s'efface un peu sous la voix
     await speak(s);
+    level(1, 2);
     if (run.stopped) break;
     await wait(s.fixed ? s.pause : s.pause * pauseFactor(steps, i, elapsed(), target - 6));
   }
   if (!run.stopped) bell();
+  ambStop(run.stopped ? 1 : 6);
   clearInterval(tick);
   setTimeout(() => { run.lock?.release().catch(() => {}); $('player').style.display = 'none'; $('setup').style.display = 'contents'; }, run.stopped ? 0 : 6000);
 }
@@ -139,8 +217,10 @@ Promise.all([
 ]).then(([c, m]) => {
   content = c; manifest = m;
   const n = Object.keys(m).length;
-  const show = () => $('voice').textContent = n ? `Voix VoiceStudio · ${n} extraits` : `Voix du navigateur${frVoice() ? ' · ' + frVoice().name : ''}`;
-  show(); speechSynthesis.onvoiceschanged = show;
+  // Avec les extraits VoiceStudio, la voix est déjà choisie.
+  $('voice').textContent = n ? `Voix VoiceStudio · ${n} extraits` : '';
+  $('voixbox').hidden = !!n;
+  fillVoices(); speechSynthesis.onvoiceschanged = fillVoices;
 });
 </script>
 </body>
