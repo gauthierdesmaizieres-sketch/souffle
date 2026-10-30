@@ -46,7 +46,7 @@ def main():
         dest = audio / name
         if args.force or not dest.exists():
             body = json.dumps({"model": args.model, "voice": args.voice, "input": text,
-                               "response_format": args.format, "speed": args.speed}).encode()
+                               "response_format": args.format, "speed": args.speed, "language": "fr"}).encode()
             req = urllib.request.Request(args.url, body, {"Content-Type": "application/json"})
             with urllib.request.urlopen(req, timeout=300) as r:
                 data = r.read()
