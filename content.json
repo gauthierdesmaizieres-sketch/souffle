@@ -1,209 +1,457 @@
 {
-  "_doc": "Chaque ligne = [texte, pause en secondes après]. Texte vide = silence seul. Les pauses sont étirées/compressées automatiquement pour tenir la durée, sauf dans les exercices de respiration.",
-  "cues": {
-    "inspire": "Inspirez",
-    "expire": "Expirez",
-    "retiens": "Retenez",
-    "vide": "Poumons vides, restez"
-  },
-  "blocks": {
-    "arrivee": [
-      { "id": "arr-m1", "moment": "matin", "lines": [
-        ["Bonjour. Installez-vous assis, le dos droit mais sans raideur.", 3],
-        ["La journée n'a pas encore commencé vraiment. Ce moment est à vous.", 3],
-        ["Fermez les yeux, ou posez le regard doucement vers le sol.", 4],
-        ["Sentez le contact de votre corps avec le siège, et vos pieds sur le sol.", 5]
-      ]},
-      { "id": "arr-m2", "moment": "matin", "lines": [
-        ["Prenez un instant pour arriver ici, avant tout le reste.", 3],
-        ["Redressez-vous un peu, comme si un fil tirait doucement le sommet de votre tête vers le ciel.", 4],
-        ["Remarquez simplement comment vous vous sentez ce matin. Reposé, fatigué, pressé. Tout est bienvenu.", 6]
-      ]},
-      { "id": "arr-s1", "moment": "soir", "lines": [
-        ["Bonsoir. La journée est derrière vous.", 3],
-        ["Installez-vous confortablement, assis ou allongé.", 3],
-        ["Laissez les épaules descendre, la mâchoire se desserrer.", 4],
-        ["Il n'y a plus rien à faire maintenant. Seulement être là.", 5]
-      ]},
-      { "id": "arr-s2", "moment": "soir", "lines": [
-        ["Prenez une position dans laquelle vous pourriez rester sans bouger quelques minutes.", 3],
-        ["Fermez les yeux.", 2],
-        ["Écoutez les sons autour de vous, proches ou lointains, sans chercher à les nommer.", 6],
-        ["Puis revenez doucement à votre corps, ici, ce soir.", 4]
-      ]},
-      { "id": "arr-t1", "moment": "tous", "lines": [
-        ["Commençons.", 2],
-        ["Trouvez une posture stable et détendue.", 3],
-        ["Prenez une grande inspiration par le nez, et relâchez lentement par la bouche.", 5],
-        ["Encore une fois. Et laissez la respiration reprendre son rythme naturel.", 6]
-      ]}
-    ],
-    "respiration": [
-      { "id": "resp-coherence", "moment": "tous", "nom": "Cohérence cardiaque",
-        "lines": [["Nous allons respirer en cohérence cardiaque : cinq secondes pour inspirer, cinq secondes pour expirer. Suivez ma voix.", 3]],
-        "breath": [["inspire", 5], ["expire", 5]],
-        "cycles": { "3": 6, "10": 12, "20": 18 },
-        "after": [["Relâchez le contrôle, et laissez la respiration redevenir libre.", 4]] },
-      { "id": "resp-carree", "moment": "matin", "nom": "Respiration carrée",
-        "lines": [["Respiration carrée : on inspire sur quatre temps, on retient quatre temps, on expire quatre temps, et on reste poumons vides quatre temps.", 3]],
-        "breath": [["inspire", 4], ["retiens", 4], ["expire", 4], ["vide", 4]],
-        "cycles": { "3": 4, "10": 8, "20": 12 },
-        "after": [["C'est terminé. Respirez maintenant sans rien contrôler, et sentez l'énergie circuler.", 4]] },
-      { "id": "resp-478", "moment": "soir", "nom": "Respiration 4-7-8",
-        "lines": [["Respiration quatre, sept, huit : inspirez par le nez sur quatre temps, retenez sept temps, et soufflez lentement par la bouche sur huit temps.", 3]],
-        "breath": [["inspire", 4], ["retiens", 7], ["expire", 8]],
-        "cycles": { "3": 4, "10": 7, "20": 10 },
-        "after": [["Laissez maintenant le souffle se poser tout seul, plus lent, plus profond.", 5]] },
-      { "id": "resp-ventre", "moment": "tous", "nom": "Respiration abdominale",
-        "lines": [
-          ["Posez une main sur votre ventre.", 2],
-          ["À l'inspiration, laissez le ventre se gonfler sous votre main. À l'expiration, laissez-le redescendre.", 3]
-        ],
-        "breath": [["inspire", 4], ["expire", 6]],
-        "cycles": { "3": 6, "10": 12, "20": 18 },
-        "after": [["Gardez cette respiration basse et tranquille, sans effort.", 4]] }
-    ],
-    "corps": [
-      { "id": "corps-court1", "moment": "tous", "durees": [10], "nom": "Scan corporel", "lines": [
-        ["Portez maintenant votre attention sur le sommet de votre crâne.", 6],
-        ["Descendez vers le front, les sourcils, les yeux. Laissez chaque muscle se détendre.", 8],
-        ["La mâchoire, la langue, la gorge.", 8],
-        ["Les épaules. Sentez leur poids, et laissez-les descendre encore un peu.", 10],
-        ["Les bras, jusqu'au bout des doigts.", 8],
-        ["La poitrine qui se soulève et redescend. Le ventre, souple.", 10],
-        ["Le bas du dos, le bassin, bien posé.", 8],
-        ["Les cuisses, les genoux, les mollets.", 8],
-        ["Et enfin les pieds, jusqu'aux orteils.", 8],
-        ["Sentez maintenant votre corps en entier, d'un seul bloc, respirant.", 12]
-      ]},
-      { "id": "corps-court2", "moment": "tous", "durees": [10], "nom": "Scan corporel inversé", "lines": [
-        ["Commençons par les pieds. Sentez leur contact avec le sol, leur poids, leur température.", 8],
-        ["Remontez vers les chevilles, les mollets. Rien à changer, seulement observer.", 8],
-        ["Les genoux, les cuisses. Laissez-les devenir lourdes.", 8],
-        ["Le bassin, le bas du ventre.", 8],
-        ["Le dos, vertèbre après vertèbre, jusqu'à la nuque.", 10],
-        ["Les mains, les avant-bras, les épaules.", 8],
-        ["Le visage : le front lisse, les paupières lourdes, les lèvres entrouvertes.", 10],
-        ["Tout le corps est là, présent, au repos.", 12]
-      ]},
-      { "id": "corps-long1", "moment": "tous", "durees": [20], "nom": "Scan corporel complet", "lines": [
-        ["Nous allons parcourir le corps lentement, de la tête aux pieds. Si votre esprit s'égare, ce n'est pas grave. Revenez simplement à la zone où nous en sommes.", 6],
-        ["Le sommet du crâne. Peut-être un picotement, une chaleur, ou rien du tout. Tout est juste.", 12],
-        ["Le front. Laissez-le s'élargir, se lisser.", 10],
-        ["Les yeux, au repos derrière les paupières. Les tempes.", 10],
-        ["Les joues, le nez. Sentez l'air frais qui entre, l'air tiède qui sort.", 12],
-        ["La mâchoire. Beaucoup de tensions se cachent ici. Laissez les dents se décoller légèrement.", 12],
-        ["La nuque et la gorge.", 10],
-        ["L'épaule droite. Le bras droit, le coude, l'avant-bras, la main, chaque doigt.", 15],
-        ["L'épaule gauche. Le bras gauche, le coude, l'avant-bras, la main, chaque doigt.", 15],
-        ["La poitrine. Observez le mouvement de la respiration, sans le modifier.", 15],
-        ["Le haut du dos, entre les omoplates.", 12],
-        ["Le ventre. Laissez-le complètement libre, qu'il se gonfle et se dégonfle à son rythme.", 15],
-        ["Le bas du dos. Si vous y sentez une gêne, respirez vers elle, comme pour lui faire de la place.", 15],
-        ["Le bassin, les hanches, le poids du corps posé sur le siège ou le sol.", 12],
-        ["La cuisse droite, le genou droit, le mollet, la cheville, le pied droit.", 15],
-        ["La cuisse gauche, le genou gauche, le mollet, la cheville, le pied gauche.", 15],
-        ["Les plantes des pieds, les orteils.", 10],
-        ["Maintenant, élargissez votre attention à tout le corps à la fois. Une seule présence, de la tête aux pieds, qui respire.", 20],
-        ["Restez ici quelques instants, simplement à habiter ce corps.", 20]
-      ]},
-      { "id": "corps-long2", "moment": "soir", "durees": [20], "nom": "Relaxation progressive", "lines": [
-        ["Nous allons contracter puis relâcher chaque partie du corps. Contractez sans forcer, puis relâchez complètement, et observez la différence.", 5],
-        ["Serrez les poings, fort. Tenez.", 5],
-        ["Et relâchez. Sentez la détente se répandre dans les mains.", 12],
-        ["Pliez les bras pour contracter les biceps. Tenez.", 5],
-        ["Relâchez. Les bras deviennent lourds.", 12],
-        ["Montez les épaules vers les oreilles. Plus haut. Tenez.", 5],
-        ["Et laissez tomber. Sentez tout ce qui se dénoue.", 15],
-        ["Froncez le visage, serrez les yeux, les lèvres. Tenez.", 5],
-        ["Relâchez. Le visage s'adoucit.", 15],
-        ["Rentrez le ventre, contractez les abdominaux. Tenez.", 5],
-        ["Relâchez. Le ventre se remplit librement.", 15],
-        ["Serrez les fessiers et les cuisses. Tenez.", 5],
-        ["Relâchez. Les jambes s'enfoncent dans le sol.", 15],
-        ["Tirez les orteils vers vous pour étirer les mollets. Tenez.", 5],
-        ["Et relâchez tout.", 15],
-        ["Parcourez maintenant votre corps du regard intérieur. S'il reste une zone tendue, respirez vers elle et laissez-la fondre.", 25],
-        ["Tout le corps est lourd, chaud, détendu.", 25]
-      ]}
-    ],
-    "theme": [
-      { "id": "theme-intention", "moment": "matin", "nom": "Intention du jour", "lines": [
-        ["Pensez à la journée qui vous attend, sans entrer dans les détails.", 6],
-        ["Demandez-vous : comment ai-je envie d'être aujourd'hui ? Pas ce que je dois faire, mais comment je veux le vivre.", 10],
-        ["Patient. Curieux. Calme. Ouvert. Laissez un mot venir.", 12],
-        ["Répétez-le intérieurement à chaque expiration.", 15],
-        ["Ce mot sera votre point d'appui. Vous pourrez y revenir à tout moment de la journée.", 8]
-      ]},
-      { "id": "theme-soleil", "moment": "matin", "nom": "Lumière du matin", "lines": [
-        ["Imaginez une lumière douce et dorée au-dessus de votre tête, comme le soleil qui se lève.", 8],
-        ["À chaque inspiration, cette lumière descend un peu plus en vous. Le visage, la gorge, la poitrine.", 12],
-        ["Elle réchauffe le ventre, les bras, les mains.", 10],
-        ["Elle descend dans les jambes, jusqu'aux pieds.", 10],
-        ["Tout votre corps est maintenant rempli de cette lumière tranquille. Une énergie calme, disponible pour la journée.", 15]
-      ]},
-      { "id": "theme-ancrage", "moment": "matin", "nom": "Ancrage", "lines": [
-        ["Sentez vos pieds bien à plat sur le sol.", 6],
-        ["Imaginez que des racines partent de vos pieds et s'enfoncent profondément dans la terre.", 10],
-        ["Quoi qu'il arrive aujourd'hui, vous pouvez revenir à cette sensation : stable, solide, enraciné.", 12],
-        ["À l'inspiration, vous puisez de la force dans le sol. À l'expiration, vous vous redressez un peu plus.", 15],
-        ["Gardez cette image avec vous.", 8]
-      ]},
-      { "id": "theme-gratitude", "moment": "soir", "nom": "Gratitude", "lines": [
-        ["Repensez à votre journée, comme un film qu'on regarde de loin.", 8],
-        ["Choisissez un moment agréable, même tout petit. Un café chaud, un sourire, un rayon de soleil.", 12],
-        ["Revivez-le quelques instants. Qu'avez-vous vu, entendu, ressenti ?", 15],
-        ["Trouvez maintenant une deuxième chose pour laquelle vous êtes reconnaissant.", 12],
-        ["Et une troisième.", 12],
-        ["Laissez ce sentiment de gratitude s'installer dans la poitrine.", 12]
-      ]},
-      { "id": "theme-lacher", "moment": "soir", "nom": "Lâcher la journée", "lines": [
-        ["Peut-être que certaines pensées de la journée tournent encore. Une conversation, une tâche inachevée.", 6],
-        ["Imaginez chaque pensée comme une feuille posée à la surface d'une rivière.", 8],
-        ["Quand une pensée arrive, posez-la sur une feuille, et regardez-la s'éloigner avec le courant.", 15],
-        ["Pas besoin de la résoudre ce soir. Elle sera encore là demain si elle est importante.", 15],
-        ["Une autre pensée. Une autre feuille. Et la rivière l'emporte.", 20],
-        ["L'esprit devient plus calme, comme l'eau qui s'apaise.", 12]
-      ]},
-      { "id": "theme-lac", "moment": "soir", "nom": "Le lac", "lines": [
-        ["Imaginez un lac au crépuscule. L'eau est parfaitement immobile.", 8],
-        ["Le ciel se reflète à sa surface, rose, puis violet, puis bleu nuit.", 12],
-        ["Vous êtes assis sur la rive. L'air est doux. Vous entendez au loin quelques oiseaux qui se taisent.", 15],
-        ["Votre esprit est comme ce lac. Les pensées sont de petites rides à la surface, qui s'effacent d'elles-mêmes.", 15],
-        ["Restez au bord de l'eau, tranquille.", 20]
-      ]}
-    ],
-    "silence": [
-      { "id": "silence-1", "moment": "tous", "lines": [
-        ["Je vais maintenant vous laisser quelques instants de silence. Restez avec votre respiration. Si vous vous perdez dans vos pensées, revenez simplement au souffle.", 3],
-        ["", 90],
-        ["Revenez au souffle, si vous êtes parti.", 40]
-      ]},
-      { "id": "silence-2", "moment": "tous", "lines": [
-        ["Pour les prochaines minutes, comptez vos expirations de un à dix, puis recommencez. Si vous perdez le compte, repartez simplement de un.", 3],
-        ["", 90],
-        ["Continuez, sans juger.", 40]
-      ]}
-    ],
-    "cloture": [
-      { "id": "clo-m1", "moment": "matin", "lines": [
-        ["Cette séance touche à sa fin.", 3],
-        ["Bougez doucement les doigts, les orteils. Étirez-vous si vous en avez envie.", 6],
-        ["Quand vous êtes prêt, ouvrez les yeux. Belle journée.", 3]
-      ]},
-      { "id": "clo-m2", "moment": "matin", "lines": [
-        ["Prenez une dernière grande inspiration, pleine d'énergie.", 5],
-        ["Et en ouvrant les yeux, emportez ce calme avec vous dans la journée.", 3]
-      ]},
-      { "id": "clo-s1", "moment": "soir", "lines": [
-        ["Cette séance se termine.", 3],
-        ["Si vous allez dormir, vous pouvez simplement rester là et laisser le sommeil venir.", 6],
-        ["Sinon, ouvrez doucement les yeux. Bonne nuit.", 3]
-      ]},
-      { "id": "clo-s2", "moment": "soir", "lines": [
-        ["Remerciez-vous d'avoir pris ce temps pour vous.", 4],
-        ["Laissez votre corps lourd et votre esprit calme. Bonne soirée, et bonne nuit.", 3]
-      ]}
+ "_doc": "Chaque ligne = [texte, pause en secondes après]. Texte vide = silence seul. Les pauses sont étirées/compressées automatiquement pour tenir la durée, sauf dans les exercices de respiration, guidés par le son.",
+ "blocks": {
+  "arrivee": [
+   {
+    "id": "arr-m1",
+    "moment": "matin",
+    "lines": [
+     ["Bonjour.", 1.5],
+     ["Installez-vous assis, le dos droit mais sans raideur.", 3],
+     ["La journée n'a pas encore commencé vraiment.", 1.5],
+     ["Ce moment est à vous.", 3],
+     ["Fermez les yeux, ou posez le regard doucement vers le sol.", 4],
+     ["Sentez le contact de votre corps avec le siège, et vos pieds sur le sol.", 5]
     ]
-  }
+   },
+   {
+    "id": "arr-m2",
+    "moment": "matin",
+    "lines": [
+     ["Prenez un instant pour arriver ici, avant tout le reste.", 3],
+     ["Redressez-vous un peu, comme si un fil tirait doucement le sommet de votre tête vers le ciel.", 4],
+     ["Remarquez simplement comment vous vous sentez ce matin.", 1.5],
+     ["Reposé, fatigué, pressé.", 1.5],
+     ["Tout est bienvenu.", 6]
+    ]
+   },
+   {
+    "id": "arr-s1",
+    "moment": "soir",
+    "lines": [
+     ["Bonsoir.", 1.5],
+     ["La journée est derrière vous.", 3],
+     ["Installez-vous confortablement, assis ou allongé.", 3],
+     ["Laissez les épaules descendre, la mâchoire se desserrer.", 4],
+     ["Il n'y a plus rien à faire maintenant.", 1.5],
+     ["Seulement être là.", 5]
+    ]
+   },
+   {
+    "id": "arr-s2",
+    "moment": "soir",
+    "lines": [
+     ["Prenez une position dans laquelle vous pourriez rester sans bouger quelques minutes.", 3],
+     ["Fermez les yeux.", 2],
+     ["Écoutez les sons autour de vous, proches ou lointains, sans chercher à les nommer.", 6],
+     ["Puis revenez doucement à votre corps, ici, ce soir.", 4]
+    ]
+   },
+   {
+    "id": "arr-t1",
+    "moment": "tous",
+    "lines": [
+     ["Commençons.", 2],
+     ["Trouvez une posture stable et détendue.", 3],
+     ["Prenez une grande inspiration par le nez, et relâchez lentement par la bouche.", 5],
+     ["Encore une fois.", 1.5],
+     ["Et laissez la respiration reprendre son rythme naturel.", 6]
+    ]
+   }
+  ],
+  "respiration": [
+   {
+    "id": "resp-coherence",
+    "moment": "tous",
+    "nom": "Cohérence cardiaque",
+    "lines": [
+     ["Nous allons respirer en cohérence cardiaque :", 1.5],
+     ["cinq secondes pour inspirer, cinq secondes pour expirer.", 1.5],
+     ["Suivez ma voix.", 3],
+     ["Le son monte quand vous inspirez, et redescend quand vous expirez.", 1.5],
+     ["Laissez-le vous guider.", 2]
+    ],
+    "breath": [
+     ["inspire", 5],
+     ["expire", 5]
+    ],
+    "cycles": {
+     "3": 6,
+     "10": 12,
+     "20": 18
+    },
+    "after": [
+     ["Relâchez le contrôle, et laissez la respiration redevenir libre.", 4]
+    ]
+   },
+   {
+    "id": "resp-carree",
+    "moment": "matin",
+    "nom": "Respiration carrée",
+    "lines": [
+     ["Respiration carrée :", 1.5],
+     ["on inspire sur quatre temps, on retient quatre temps, on expire quatre temps, et on reste poumons vides quatre temps.", 3],
+     ["Le son monte quand vous inspirez, et redescend quand vous expirez.", 1.5],
+     ["Laissez-le vous guider.", 2]
+    ],
+    "breath": [
+     ["inspire", 4],
+     ["retiens", 4],
+     ["expire", 4],
+     ["vide", 4]
+    ],
+    "cycles": {
+     "3": 4,
+     "10": 8,
+     "20": 12
+    },
+    "after": [
+     ["C'est terminé.", 1.5],
+     ["Respirez maintenant sans rien contrôler, et sentez l'énergie circuler.", 4]
+    ]
+   },
+   {
+    "id": "resp-478",
+    "moment": "soir",
+    "nom": "Respiration 4-7-8",
+    "lines": [
+     ["Respiration quatre, sept, huit :", 1.5],
+     ["inspirez par le nez sur quatre temps, retenez sept temps, et soufflez lentement par la bouche sur huit temps.", 3],
+     ["Le son monte quand vous inspirez, et redescend quand vous expirez.", 1.5],
+     ["Laissez-le vous guider.", 2]
+    ],
+    "breath": [
+     ["inspire", 4],
+     ["retiens", 7],
+     ["expire", 8]
+    ],
+    "cycles": {
+     "3": 4,
+     "10": 7,
+     "20": 10
+    },
+    "after": [
+     ["Laissez maintenant le souffle se poser tout seul, plus lent, plus profond.", 5]
+    ]
+   },
+   {
+    "id": "resp-ventre",
+    "moment": "tous",
+    "nom": "Respiration abdominale",
+    "lines": [
+     ["Posez une main sur votre ventre.", 2],
+     ["À l'inspiration, laissez le ventre se gonfler sous votre main.", 1.5],
+     ["À l'expiration, laissez-le redescendre.", 3],
+     ["Le son monte quand vous inspirez, et redescend quand vous expirez.", 1.5],
+     ["Laissez-le vous guider.", 2]
+    ],
+    "breath": [
+     ["inspire", 4],
+     ["expire", 6]
+    ],
+    "cycles": {
+     "3": 6,
+     "10": 12,
+     "20": 18
+    },
+    "after": [
+     ["Gardez cette respiration basse et tranquille, sans effort.", 4]
+    ]
+   }
+  ],
+  "corps": [
+   {
+    "id": "corps-court1",
+    "moment": "tous",
+    "durees": [
+     10
+    ],
+    "nom": "Scan corporel",
+    "lines": [
+     ["Portez maintenant votre attention sur le sommet de votre crâne.", 6],
+     ["Descendez vers le front, les sourcils, les yeux.", 1.5],
+     ["Laissez chaque muscle se détendre.", 8],
+     ["La mâchoire, la langue, la gorge.", 8],
+     ["Les épaules.", 1.5],
+     ["Sentez leur poids, et laissez-les descendre encore un peu.", 10],
+     ["Les bras, jusqu'au bout des doigts.", 8],
+     ["La poitrine qui se soulève et redescend.", 1.5],
+     ["Le ventre, souple.", 10],
+     ["Le bas du dos, le bassin, bien posé.", 8],
+     ["Les cuisses, les genoux, les mollets.", 8],
+     ["Et enfin les pieds, jusqu'aux orteils.", 8],
+     ["Sentez maintenant votre corps en entier, d'un seul bloc, respirant.", 12]
+    ]
+   },
+   {
+    "id": "corps-court2",
+    "moment": "tous",
+    "durees": [
+     10
+    ],
+    "nom": "Scan corporel inversé",
+    "lines": [
+     ["Commençons par les pieds.", 1.5],
+     ["Sentez leur contact avec le sol, leur poids, leur température.", 8],
+     ["Remontez vers les chevilles, les mollets.", 1.5],
+     ["Rien à changer, seulement observer.", 8],
+     ["Les genoux, les cuisses.", 1.5],
+     ["Laissez-les devenir lourdes.", 8],
+     ["Le bassin, le bas du ventre.", 8],
+     ["Le dos, vertèbre après vertèbre, jusqu'à la nuque.", 10],
+     ["Les mains, les avant-bras, les épaules.", 8],
+     ["Le visage :", 1.5],
+     ["le front lisse, les paupières lourdes, les lèvres entrouvertes.", 10],
+     ["Tout le corps est là, présent, au repos.", 12]
+    ]
+   },
+   {
+    "id": "corps-long1",
+    "moment": "tous",
+    "durees": [
+     20
+    ],
+    "nom": "Scan corporel complet",
+    "lines": [
+     ["Nous allons parcourir le corps lentement, de la tête aux pieds.", 1.5],
+     ["Si votre esprit s'égare, ce n'est pas grave.", 1.5],
+     ["Revenez simplement à la zone où nous en sommes.", 6],
+     ["Le sommet du crâne.", 1.5],
+     ["Peut-être un picotement, une chaleur, ou rien du tout.", 1.5],
+     ["Tout est juste.", 12],
+     ["Le front.", 1.5],
+     ["Laissez-le s'élargir, se lisser.", 10],
+     ["Les yeux, au repos derrière les paupières.", 1.5],
+     ["Les tempes.", 10],
+     ["Les joues, le nez.", 1.5],
+     ["Sentez l'air frais qui entre, l'air tiède qui sort.", 12],
+     ["La mâchoire.", 1.5],
+     ["Beaucoup de tensions se cachent ici.", 1.5],
+     ["Laissez les dents se décoller légèrement.", 12],
+     ["La nuque et la gorge.", 10],
+     ["L'épaule droite.", 1.5],
+     ["Le bras droit, le coude, l'avant-bras, la main, chaque doigt.", 15],
+     ["L'épaule gauche.", 1.5],
+     ["Le bras gauche, le coude, l'avant-bras, la main, chaque doigt.", 15],
+     ["La poitrine.", 1.5],
+     ["Observez le mouvement de la respiration, sans le modifier.", 15],
+     ["Le haut du dos, entre les omoplates.", 12],
+     ["Le ventre.", 1.5],
+     ["Laissez-le complètement libre, qu'il se gonfle et se dégonfle à son rythme.", 15],
+     ["Le bas du dos.", 1.5],
+     ["Si vous y sentez une gêne, respirez vers elle, comme pour lui faire de la place.", 15],
+     ["Le bassin, les hanches, le poids du corps posé sur le siège ou le sol.", 12],
+     ["La cuisse droite, le genou droit, le mollet, la cheville, le pied droit.", 15],
+     ["La cuisse gauche, le genou gauche, le mollet, la cheville, le pied gauche.", 15],
+     ["Les plantes des pieds, les orteils.", 10],
+     ["Maintenant, élargissez votre attention à tout le corps à la fois.", 1.5],
+     ["Une seule présence, de la tête aux pieds, qui respire.", 20],
+     ["Restez ici quelques instants, simplement à habiter ce corps.", 20]
+    ]
+   },
+   {
+    "id": "corps-long2",
+    "moment": "soir",
+    "durees": [
+     20
+    ],
+    "nom": "Relaxation progressive",
+    "lines": [
+     ["Nous allons contracter puis relâcher chaque partie du corps.", 1.5],
+     ["Contractez sans forcer, puis relâchez complètement, et observez la différence.", 5],
+     ["Serrez les poings, fort.", 1.5],
+     ["Tenez.", 5],
+     ["Et relâchez.", 1.5],
+     ["Sentez la détente se répandre dans les mains.", 12],
+     ["Pliez les bras pour contracter les biceps.", 1.5],
+     ["Tenez.", 5],
+     ["Relâchez.", 1.5],
+     ["Les bras deviennent lourds.", 12],
+     ["Montez les épaules vers les oreilles.", 1.5],
+     ["Plus haut.", 1.5],
+     ["Tenez.", 5],
+     ["Et laissez tomber.", 1.5],
+     ["Sentez tout ce qui se dénoue.", 15],
+     ["Froncez le visage, serrez les yeux, les lèvres.", 1.5],
+     ["Tenez.", 5],
+     ["Relâchez.", 1.5],
+     ["Le visage s'adoucit.", 15],
+     ["Rentrez le ventre, contractez les abdominaux.", 1.5],
+     ["Tenez.", 5],
+     ["Relâchez.", 1.5],
+     ["Le ventre se remplit librement.", 15],
+     ["Serrez les fessiers et les cuisses.", 1.5],
+     ["Tenez.", 5],
+     ["Relâchez.", 1.5],
+     ["Les jambes s'enfoncent dans le sol.", 15],
+     ["Tirez les orteils vers vous pour étirer les mollets.", 1.5],
+     ["Tenez.", 5],
+     ["Et relâchez tout.", 15],
+     ["Parcourez maintenant votre corps du regard intérieur.", 1.5],
+     ["S'il reste une zone tendue, respirez vers elle et laissez-la fondre.", 25],
+     ["Tout le corps est lourd, chaud, détendu.", 25]
+    ]
+   }
+  ],
+  "theme": [
+   {
+    "id": "theme-intention",
+    "moment": "matin",
+    "nom": "Intention du jour",
+    "lines": [
+     ["Pensez à la journée qui vous attend, sans entrer dans les détails.", 6],
+     ["Demandez-vous :", 1.5],
+     ["comment ai-je envie d'être aujourd'hui ?", 1.5],
+     ["Pas ce que je dois faire, mais comment je veux le vivre.", 10],
+     ["Patient.", 1.5],
+     ["Curieux.", 1.5],
+     ["Calme.", 1.5],
+     ["Ouvert.", 1.5],
+     ["Laissez un mot venir.", 12],
+     ["Répétez-le intérieurement à chaque expiration.", 15],
+     ["Ce mot sera votre point d'appui.", 1.5],
+     ["Vous pourrez y revenir à tout moment de la journée.", 8]
+    ]
+   },
+   {
+    "id": "theme-soleil",
+    "moment": "matin",
+    "nom": "Lumière du matin",
+    "lines": [
+     ["Imaginez une lumière douce et dorée au-dessus de votre tête, comme le soleil qui se lève.", 8],
+     ["À chaque inspiration, cette lumière descend un peu plus en vous.", 1.5],
+     ["Le visage, la gorge, la poitrine.", 12],
+     ["Elle réchauffe le ventre, les bras, les mains.", 10],
+     ["Elle descend dans les jambes, jusqu'aux pieds.", 10],
+     ["Tout votre corps est maintenant rempli de cette lumière tranquille.", 1.5],
+     ["Une énergie calme, disponible pour la journée.", 15]
+    ]
+   },
+   {
+    "id": "theme-ancrage",
+    "moment": "matin",
+    "nom": "Ancrage",
+    "lines": [
+     ["Sentez vos pieds bien à plat sur le sol.", 6],
+     ["Imaginez que des racines partent de vos pieds et s'enfoncent profondément dans la terre.", 10],
+     ["Quoi qu'il arrive aujourd'hui, vous pouvez revenir à cette sensation :", 1.5],
+     ["stable, solide, enraciné.", 12],
+     ["À l'inspiration, vous puisez de la force dans le sol.", 1.5],
+     ["À l'expiration, vous vous redressez un peu plus.", 15],
+     ["Gardez cette image avec vous.", 8]
+    ]
+   },
+   {
+    "id": "theme-gratitude",
+    "moment": "soir",
+    "nom": "Gratitude",
+    "lines": [
+     ["Repensez à votre journée, comme un film qu'on regarde de loin.", 8],
+     ["Choisissez un moment agréable, même tout petit.", 1.5],
+     ["Un café chaud, un sourire, un rayon de soleil.", 12],
+     ["Revivez-le quelques instants.", 1.5],
+     ["Qu'avez-vous vu, entendu, ressenti ?", 15],
+     ["Trouvez maintenant une deuxième chose pour laquelle vous êtes reconnaissant.", 12],
+     ["Et une troisième.", 12],
+     ["Laissez ce sentiment de gratitude s'installer dans la poitrine.", 12]
+    ]
+   },
+   {
+    "id": "theme-lacher",
+    "moment": "soir",
+    "nom": "Lâcher la journée",
+    "lines": [
+     ["Peut-être que certaines pensées de la journée tournent encore.", 1.5],
+     ["Une conversation, une tâche inachevée.", 6],
+     ["Imaginez chaque pensée comme une feuille posée à la surface d'une rivière.", 8],
+     ["Quand une pensée arrive, posez-la sur une feuille, et regardez-la s'éloigner avec le courant.", 15],
+     ["Pas besoin de la résoudre ce soir.", 1.5],
+     ["Elle sera encore là demain si elle est importante.", 15],
+     ["Une autre pensée.", 1.5],
+     ["Une autre feuille.", 1.5],
+     ["Et la rivière l'emporte.", 20],
+     ["L'esprit devient plus calme, comme l'eau qui s'apaise.", 12]
+    ]
+   },
+   {
+    "id": "theme-lac",
+    "moment": "soir",
+    "nom": "Le lac",
+    "lines": [
+     ["Imaginez un lac au crépuscule.", 1.5],
+     ["L'eau est parfaitement immobile.", 8],
+     ["Le ciel se reflète à sa surface, rose, puis violet, puis bleu nuit.", 12],
+     ["Vous êtes assis sur la rive.", 1.5],
+     ["L'air est doux.", 1.5],
+     ["Vous entendez au loin quelques oiseaux qui se taisent.", 15],
+     ["Votre esprit est comme ce lac.", 1.5],
+     ["Les pensées sont de petites rides à la surface, qui s'effacent d'elles-mêmes.", 15],
+     ["Restez au bord de l'eau, tranquille.", 20]
+    ]
+   }
+  ],
+  "silence": [
+   {
+    "id": "silence-1",
+    "moment": "tous",
+    "lines": [
+     ["Je vais maintenant vous laisser quelques instants de silence.", 1.5],
+     ["Restez avec votre respiration.", 1.5],
+     ["Si vous vous perdez dans vos pensées, revenez simplement au souffle.", 3],
+     ["", 90],
+     ["Revenez au souffle, si vous êtes parti.", 40]
+    ]
+   },
+   {
+    "id": "silence-2",
+    "moment": "tous",
+    "lines": [
+     ["Pour les prochaines minutes, comptez vos expirations de un à dix, puis recommencez.", 1.5],
+     ["Si vous perdez le compte, repartez simplement de un.", 3],
+     ["", 90],
+     ["Continuez, sans juger.", 40]
+    ]
+   }
+  ],
+  "cloture": [
+   {
+    "id": "clo-m1",
+    "moment": "matin",
+    "lines": [
+     ["Cette séance touche à sa fin.", 3],
+     ["Bougez doucement les doigts, les orteils.", 1.5],
+     ["Étirez-vous si vous en avez envie.", 6],
+     ["Quand vous êtes prêt, ouvrez les yeux.", 1.5],
+     ["Belle journée.", 3]
+    ]
+   },
+   {
+    "id": "clo-m2",
+    "moment": "matin",
+    "lines": [
+     ["Prenez une dernière grande inspiration, pleine d'énergie.", 5],
+     ["Et en ouvrant les yeux, emportez ce calme avec vous dans la journée.", 3]
+    ]
+   },
+   {
+    "id": "clo-s1",
+    "moment": "soir",
+    "lines": [
+     ["Cette séance se termine.", 3],
+     ["Si vous allez dormir, vous pouvez simplement rester là et laisser le sommeil venir.", 6],
+     ["Sinon, ouvrez doucement les yeux.", 1.5],
+     ["Bonne nuit.", 3]
+    ]
+   },
+   {
+    "id": "clo-s2",
+    "moment": "soir",
+    "lines": [
+     ["Remerciez-vous d'avoir pris ce temps pour vous.", 4],
+     ["Laissez votre corps lourd et votre esprit calme.", 1.5],
+     ["Bonne soirée, et bonne nuit.", 3]
+    ]
+   }
+  ]
+ }
 }

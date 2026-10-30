@@ -1,7 +1,7 @@
 """Génère les extraits audio de content.json via l'API locale de VoiceStudio.
 
 VoiceStudio doit tourner (backend sur http://localhost:3900).
-    python generer_audio.py --voice "MaVoix"
+    python generer_audio.py --voice "ProfilVoiceStudio" --nom Velours
 Ne régénère pas les fichiers déjà présents (--force pour tout refaire).
 """
 import argparse
@@ -13,7 +13,7 @@ ROOT = pathlib.Path(__file__).parent
 
 
 def segments(content):
-    out = {f"cue-{k}": v for k, v in content["cues"].items()}
+    out = {}
     for variants in content["blocks"].values():
         for b in variants:
             for prefix, lines in ((b["id"], b["lines"]), (f"{b['id']}-after", b.get("after", []))):
@@ -26,6 +26,7 @@ def segments(content):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--voice", required=True, help="nom du profil de voix dans VoiceStudio")
+    p.add_argument("--nom", required=True, help="nom affiché dans l'app")
     p.add_argument("--url", default="http://localhost:3900/v1/audio/speech")
     p.add_argument("--model", default="tts-1")
     p.add_argument("--format", default="mp3")
@@ -35,11 +36,13 @@ def main():
 
     content = json.loads((ROOT / "content.json").read_text(encoding="utf-8"))
     audio = ROOT / "audio"
-    audio.mkdir(exist_ok=True)
-    manifest = {}
+    (audio / args.nom).mkdir(parents=True, exist_ok=True)
+    path = audio / "manifest.json"
+    all_voices = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    manifest = all_voices[args.nom] = {}
     segs = segments(content)
     for n, (sid, text) in enumerate(segs.items(), 1):
-        name = f"{sid}.{args.format}"
+        name = f"{args.nom}/{sid}.{args.format}"
         dest = audio / name
         if args.force or not dest.exists():
             body = json.dumps({"model": args.model, "voice": args.voice, "input": text,
@@ -53,8 +56,8 @@ def main():
             print(f"[{n}/{len(segs)}] {sid}")
         manifest[sid] = name
         # Écrit au fil de l'eau : une coupure ne perd pas ce qui est déjà généré.
-        (audio / "manifest.json").write_text(json.dumps(manifest, indent=1), encoding="utf-8")
-    print(f"OK, {len(manifest)} extraits dans {audio}")
+        path.write_text(json.dumps(all_voices, indent=1), encoding="utf-8")
+    print(f"OK, {len(manifest)} extraits dans {audio / args.nom}")
 
 
 if __name__ == "__main__":

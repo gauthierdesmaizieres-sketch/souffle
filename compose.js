@@ -28,7 +28,7 @@ function compose(content, moment, minutes, recent = [], rand = Math.random) {
     if (b.breath) {
       for (let c = 0; c < b.cycles[minutes]; c++)
         for (const [cue, sec] of b.breath)
-          steps.push({ id: `cue-${cue}`, text: content.cues[cue], pause: sec, fixed: true, label });
+          steps.push({ id: `cue-${cue}`, text: '', pause: sec, fixed: true, breath: cue, label });
       add(b.after, `${b.id}-after`);
     }
   }
